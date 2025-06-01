@@ -96,5 +96,3 @@ TEST_CASE("Modifiers", "[modifiers]") {
     }
 }
 
-
-}
