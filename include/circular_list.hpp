@@ -3,6 +3,7 @@
 #include <memory>
 #include <stdexcept>
 #include <initializer_list>
+#include <algorithm>
 
 namespace cls {
 
@@ -22,14 +23,14 @@ private:
     size_t m_size;
 
 public:
+    // Iterator declarations
     class iterator;
     class const_iterator;
 
+    // Constructors/destructors
     circular_list() : head(nullptr), m_size(0) {}
     circular_list(std::initializer_list<T> init) : circular_list() {
-        for (const auto& item : init) {
-            push_back(item);
-        }
+        for (const auto& item : init) push_back(item);
     }
     ~circular_list() { clear(); }
 
@@ -50,17 +51,14 @@ public:
         if (empty()) throw std::out_of_range("List is empty");
         return head->data;
     }
-    
     const T& front() const {
         if (empty()) throw std::out_of_range("List is empty");
         return head->data;
     }
-    
     T& back() {
         if (empty()) throw std::out_of_range("List is empty");
         return head->prev->data;
     }
-    
     const T& back() const {
         if (empty()) throw std::out_of_range("List is empty");
         return head->prev->data;
@@ -73,8 +71,14 @@ public:
     void pop_front();
     void clear() noexcept;
 
+    // Operations
+    void merge(circular_list& other);
+    void reverse() noexcept;
+    void swap(circular_list& other) noexcept;
+
     // Iterator classes
     class iterator {
+        Node* current;
     public:
         using iterator_category = std::bidirectional_iterator_tag;
         using value_type = T;
@@ -91,18 +95,15 @@ public:
             current = current->next;
             return *this;
         }
-
         iterator operator++(int) {
             iterator tmp = *this;
             ++(*this);
             return tmp;
         }
-
         iterator& operator--() {
             current = current->prev;
             return *this;
         }
-
         iterator operator--(int) {
             iterator tmp = *this;
             --(*this);
@@ -111,13 +112,10 @@ public:
 
         bool operator==(const iterator& other) const { return current == other.current; }
         bool operator!=(const iterator& other) const { return !(*this == other); }
-
-    private:
-        Node* current;
-        friend class circular_list<T>;
     };
 
     class const_iterator {
+        const Node* current;
     public:
         using iterator_category = std::bidirectional_iterator_tag;
         using value_type = const T;
@@ -125,7 +123,7 @@ public:
         using pointer = const T*;
         using reference = const T&;
 
-        const_iterator(Node* ptr = nullptr) : current(ptr) {}
+        const_iterator(const Node* ptr = nullptr) : current(ptr) {}
 
         reference operator*() const { return current->data; }
         pointer operator->() const { return &current->data; }
@@ -134,18 +132,15 @@ public:
             current = current->next;
             return *this;
         }
-
         const_iterator operator++(int) {
             const_iterator tmp = *this;
             ++(*this);
             return tmp;
         }
-
         const_iterator& operator--() {
             current = current->prev;
             return *this;
         }
-
         const_iterator operator--(int) {
             const_iterator tmp = *this;
             --(*this);
@@ -154,11 +149,12 @@ public:
 
         bool operator==(const const_iterator& other) const { return current == other.current; }
         bool operator!=(const const_iterator& other) const { return !(*this == other); }
-
-    private:
-        Node* current;
-        friend class circular_list<T>;
     };
 };
+
+template <typename T>
+void swap(circular_list<T>& lhs, circular_list<T>& rhs) noexcept {
+    lhs.swap(rhs);
+}
 
 } // namespace cls
