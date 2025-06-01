@@ -1,0 +1,15 @@
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "Circular List STL"
+PROJECT_NUMBER         = 1.0
+OUTPUT_DIRECTORY       = docs
+INPUT                  = ../include
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+GENERATE_LATEX         = NO
+GENERATE_HTML          = YES
+HAVE_DOT               = YES
+UML_LOOK               = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
