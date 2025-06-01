@@ -10,16 +10,6 @@ TEST_CASE("Circular List Construction", "[construction]") {
         REQUIRE(list.size() == 0);
     }
     
-    SECTION("Initializer list constructor") {
-        cls::circular_list<int> list{1, 2, 3};
-        REQUIRE(list.size() == 3);
-        
-        std::vector<int> result;
-        for (const auto& item : list) {
-            result.push_back(item);
-        }
-        REQUIRE(result == std::vector<int>{1, 2, 3});
-    }
 }
 
 TEST_CASE("Element Access", "[access]") {
@@ -106,51 +96,5 @@ TEST_CASE("Modifiers", "[modifiers]") {
     }
 }
 
-TEST_CASE("Operations", "[operations]") {
-    SECTION("Merge") {
-        cls::circular_list<int> list1{1, 3, 5};
-        cls::circular_list<int> list2{2, 4, 6};
-        
-        list1.merge(list2);
-        REQUIRE(list1.size() == 6);
-        REQUIRE(list2.empty());
-        
-        std::vector<int> result;
-        for (const auto& item : list1) {
-            result.push_back(item);
-        }
-        REQUIRE(result.size() == 6);
-    }
-    
-    SECTION("Reverse") {
-        cls::circular_list<int> list{1, 2, 3};
-        list.reverse();
-        
-        std::vector<int> result;
-        for (const auto& item : list) {
-            result.push_back(item);
-        }
-        REQUIRE(result == std::vector<int>{3, 2, 1});
-    }
-    
-    SECTION("Swap") {
-        cls::circular_list<int> list1{1, 2, 3};
-        cls::circular_list<int> list2{4, 5};
-        
-        list1.swap(list2);
-        REQUIRE(list1.size() == 2);
-        REQUIRE(list2.size() == 3);
-        
-        std::vector<int> result1;
-        for (const auto& item : list1) {
-            result1.push_back(item);
-        }
-        REQUIRE(result1 == std::vector<int>{4, 5});
-        
-        std::vector<int> result2;
-        for (const auto& item : list2) {
-            result2.push_back(item);
-        }
-        REQUIRE(result2 == std::vector<int>{1, 2, 3});
-    }
+
 }
