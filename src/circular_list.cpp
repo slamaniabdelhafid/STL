@@ -1,4 +1,5 @@
 #include "circular_list.hpp"
+#include <algorithm>
 
 namespace cls {
 
@@ -58,31 +59,25 @@ void circular_list<T>::pop_front() {
 }
 
 template <typename T>
-void circular_list<T>::clear() noexcept {
-    while (!empty()) pop_back();
-}
-
-template <typename T>
 void circular_list<T>::merge(circular_list& other) {
-    if (this == &other || other.empty()) return;
+    if (this == &other) return;
+    
     if (empty()) {
         head = other.head;
         m_size = other.m_size;
-        other.head = nullptr;
-        other.m_size = 0;
-        return;
+    } else if (!other.empty()) {
+        Node* this_last = head->prev;
+        Node* other_last = other.head->prev;
+        
+        this_last->next = other.head;
+        other.head->prev = this_last;
+        
+        head->prev = other_last;
+        other_last->next = head;
+        
+        m_size += other.m_size;
     }
-
-    Node* this_last = head->prev;
-    Node* other_last = other.head->prev;
     
-    this_last->next = other.head;
-    other.head->prev = this_last;
-    
-    head->prev = other_last;
-    other_last->next = head;
-    
-    m_size += other.m_size;
     other.head = nullptr;
     other.m_size = 0;
 }
@@ -100,13 +95,6 @@ void circular_list<T>::reverse() noexcept {
     head = head->next;
 }
 
-template <typename T>
-void circular_list<T>::swap(circular_list& other) noexcept {
-    std::swap(head, other.head);
-    std::swap(m_size, other.m_size);
-}
-
-// Explicit instantiations
 template class circular_list<int>;
 template class circular_list<double>;
 template class circular_list<std::string>;
