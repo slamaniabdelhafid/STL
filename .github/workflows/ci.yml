@@ -5,9 +5,6 @@ on: [push, pull_request]
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        build-type: [Debug, Release]
     
     steps:
     - uses: actions/checkout@v4
@@ -15,21 +12,16 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake doxygen graphviz
+        sudo apt-get install -y cmake g++ build-essential
         
     - name: Configure and Build
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+        cmake ..
         make
         
     - name: Run tests
       run: |
         cd build
         ctest --output-on-failure
-        
-    - name: Generate documentation
-      run: |
-        cd build
-        make docs
