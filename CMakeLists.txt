@@ -22,19 +22,13 @@ if(BUILD_TESTS)
     FetchContent_Declare(
         Catch2
         GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-        GIT_TAG v3.4.0
+        GIT_TAG devel
     )
     FetchContent_MakeAvailable(Catch2)
 
-    add_executable(tests
-        tests/test_circular_list.cpp
-    )
-    target_link_libraries(tests
-        PRIVATE
-        circular_list
-        Catch2::Catch2WithMain
-    )
-
+    add_executable(tests tests/test_circular_list.cpp)
+    target_link_libraries(tests PRIVATE circular_list Catch2::Catch2WithMain)
+    
     enable_testing()
     add_test(NAME circular_list_tests COMMAND tests)
 endif()
