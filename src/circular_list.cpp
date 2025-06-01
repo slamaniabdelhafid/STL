@@ -1,12 +1,10 @@
 #include "circular_list.hpp"
-#include <algorithm>
 
 namespace cls {
 
 template <typename T>
 void circular_list<T>::push_back(const T& value) {
     Node* newNode = new Node(value);
-    
     if (!head) {
         head = newNode;
         head->next = head;
@@ -61,12 +59,54 @@ void circular_list<T>::pop_front() {
 
 template <typename T>
 void circular_list<T>::clear() noexcept {
-    while (!empty()) {
-        pop_back();
-    }
+    while (!empty()) pop_back();
 }
 
-// Explicit template instantiation
+template <typename T>
+void circular_list<T>::merge(circular_list& other) {
+    if (this == &other || other.empty()) return;
+    if (empty()) {
+        head = other.head;
+        m_size = other.m_size;
+        other.head = nullptr;
+        other.m_size = 0;
+        return;
+    }
+
+    Node* this_last = head->prev;
+    Node* other_last = other.head->prev;
+    
+    this_last->next = other.head;
+    other.head->prev = this_last;
+    
+    head->prev = other_last;
+    other_last->next = head;
+    
+    m_size += other.m_size;
+    other.head = nullptr;
+    other.m_size = 0;
+}
+
+template <typename T>
+void circular_list<T>::reverse() noexcept {
+    if (m_size < 2) return;
+    
+    Node* current = head;
+    do {
+        std::swap(current->next, current->prev);
+        current = current->prev;
+    } while (current != head);
+    
+    head = head->next;
+}
+
+template <typename T>
+void circular_list<T>::swap(circular_list& other) noexcept {
+    std::swap(head, other.head);
+    std::swap(m_size, other.m_size);
+}
+
+// Explicit instantiations
 template class circular_list<int>;
 template class circular_list<double>;
 template class circular_list<std::string>;
