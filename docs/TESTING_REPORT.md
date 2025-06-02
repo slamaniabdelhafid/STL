@@ -14,25 +14,25 @@ This document outlines the testing procedures and results for the Circular List 
 ### 3.1 Basic Functionality Tests
 | Test Case          | Description                   | Expected Result | Actual Result |
 |--------------------|-------------------------------|-----------------|---------------|
-| Default Constructor| Create empty list             | size() == 0     | Passed ✅     |
-| Push Back          | Add element to end            | back() == value | Passed ✅     |
-| Push Front         | Add element to front          | front() == value| Passed ✅     |
-| Pop Back           | Remove last element           | size decreases  | Passed ✅     |
-| Pop Front          | Remove first element          | size decreases  | Passed ✅     |
+| Default Constructor| Create empty list             | size() == 0     | Passed        |
+| Push Back          | Add element to end            | back() == value | Passed        |
+| Push Front         | Add element to front          | front() == value| Passed        |
+| Pop Back           | Remove last element           | size decreases  | Passed        |
+| Pop Front          | Remove first element          | size decreases  | Passed        |
 
 ### 3.2 Iterator Tests
 | Test Case          | Description                   | Expected Result | Actual Result |
 |--------------------|-------------------------------|-----------------|---------------|
-| Begin/End          | Iterate full list             | All elements    | Passed ✅     |
-| Circularity        | ++end() == begin()            | true            | Passed ✅     |
-| Erase              | Remove middle element         | Iterators valid | Passed ✅     |
+| Begin/End          | Iterate full list             | All elements    | Passed        |
+| Circularity        | ++end() == begin()            | true            | Passed        |
+| Erase              | Remove middle element         | Iterators valid | Passed        |
 
 ### 3.3 Edge Cases
 | Test Case          | Description                   | Expected Result | Actual Result |
 |--------------------|-------------------------------|-----------------|---------------|
-| Empty List         | Operations on empty list      | Defined behavior| Passed ✅     |
-| Single Element     | All ops on 1-element list     | Correct results | Passed ✅     |
-| Self-Assignment    | list = list                   | No corruption   | Passed ✅     |
+| Empty List         | Operations on empty list      | Defined behavior| Passed        |
+| Single Element     | All ops on 1-element list     | Correct results | Passed        |
+| Self-Assignment    | list = list                   | No corruption   | Passed        |
 
 ## 4. Memory Management
 Memory tests were conducted using Valgrind:
