@@ -4,8 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build-and-test:
-    # Only run real CI on "Circular list" branch
-    if: github.ref == 'refs/heads/Circular list'
     runs-on: ubuntu-latest
     
     steps:
@@ -32,11 +30,3 @@ jobs:
       run: |
         cd build
         make docs
-
-  skip-ci:
-    # Only run on "CI and testing" branch
-    if: github.ref == 'refs/heads/CI and testing'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Skip CI
-      run: echo "Showing green checkmark for CI and testing branch without running actual tests"
